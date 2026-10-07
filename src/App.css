@@ -4062,3 +4062,985 @@ input[type="file"] {
   }
 
 }
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+.mobile-menu-button {
+  display: none;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 26px;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE LAYOUT
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  nav {
+    height: 64px;
+    padding: 0 15px;
+    gap: 12px;
+  }
+
+  nav h2 {
+    font-size: 18px;
+    flex: 1;
+  }
+
+  nav div {
+    gap: 0;
+  }
+
+  nav div button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .app-layout {
+    padding-top: 64px;
+  }
+
+  /* Sidebar becomes a slide-out menu */
+  .app-layout > aside {
+    position: fixed !important;
+
+    top: 64px;
+    left: -240px;
+
+    width: 230px !important;
+    height: calc(100vh - 64px);
+
+    z-index: 1200;
+
+    transition: left 0.25s ease;
+
+    box-shadow: 5px 0 20px rgba(15, 23, 42, 0.2);
+  }
+
+  .sidebar-open .app-layout > aside {
+    left: 0;
+  }
+
+  /* Dark overlay behind sidebar */
+  .mobile-overlay {
+    display: block;
+
+    position: fixed;
+
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 1100;
+
+    background: rgba(15, 23, 42, 0.45);
+  }
+
+  /* Main content gets full width */
+  .main-content {
+    width: 100%;
+    margin-left: 0 !important;
+    padding: 20px 15px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  nav {
+    padding: 0 10px;
+  }
+
+  nav h2 {
+    font-size: 16px;
+  }
+
+  nav div button {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .main-content {
+    padding: 16px 12px;
+  }
+
+  .app-layout > aside {
+    width: 220px !important;
+  }
+}
+/* =========================================================
+   COMPANIES - MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .companies-page {
+    width: 100%;
+  }
+
+  /* Page header */
+  .companies-page .page-header {
+    margin-bottom: 18px;
+  }
+
+  .companies-page .page-header h1 {
+    font-size: 24px;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* CGPA banner */
+  .cgpa-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .cgpa-banner > div:first-child {
+    width: 100%;
+  }
+
+  .cgpa-info {
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* Search + filter */
+  .companies-page .search-filter {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .companies-page .search-filter input,
+  .companies-page .search-filter select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* Result heading */
+  .company-result-header {
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .company-result-header h2 {
+    font-size: 19px;
+  }
+
+  .company-result-header span {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* Company grid */
+  .company-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Company card */
+  .company-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+  }
+
+  /* Company heading */
+  .company-card-header {
+    gap: 12px;
+  }
+
+  .company-logo {
+    flex-shrink: 0;
+  }
+
+  .company-card-header h2 {
+    font-size: 19px;
+  }
+
+  .company-card-header p {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  /* Package */
+  .company-package {
+    padding: 12px;
+  }
+
+  /* Details */
+  .company-details {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .company-details div {
+    min-width: 0;
+  }
+
+  .company-details span,
+  .company-details strong {
+    font-size: 12px;
+  }
+
+  .company-details strong {
+    overflow-wrap: anywhere;
+  }
+
+  /* Deadline */
+  .company-deadline {
+    gap: 8px;
+  }
+
+  .company-deadline span,
+  .company-deadline strong {
+    font-size: 12px;
+  }
+
+  /* Eligibility */
+  .eligibility {
+    padding: 12px;
+  }
+
+  .eligibility strong,
+  .eligibility span {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  /* Apply button */
+  .apply-button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .companies-page .page-header h1 {
+    font-size: 22px;
+  }
+
+  .cgpa-banner {
+    padding: 14px;
+  }
+
+  .company-result-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .company-result-header h2 {
+    font-size: 18px;
+  }
+
+  .company-card {
+    padding: 15px;
+  }
+
+  .company-card-header h2 {
+    font-size: 18px;
+  }
+
+  .company-details {
+    grid-template-columns: 1fr;
+  }
+
+  .company-package strong {
+    font-size: 18px;
+  }
+
+  .apply-button {
+    font-size: 13px;
+  }
+}
+/* =========================================================
+   INTERVIEWS - MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  /* Page header */
+  .page-header {
+    gap: 12px;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .page-header button {
+    white-space: nowrap;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  /* Interview form */
+  .application-form {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+  }
+
+  .application-form h2 {
+    font-size: 19px;
+  }
+
+  .application-form input,
+  .application-form select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .application-form-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .application-form-actions button {
+    flex: 1;
+  }
+
+  /* Interview cards */
+  .application-list {
+    width: 100%;
+  }
+
+  .application-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+  }
+
+  .application-info {
+    min-width: 0;
+  }
+
+  .application-info h3 {
+    font-size: 18px;
+  }
+
+  .application-info p {
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  /* Edit / Delete buttons */
+  .application-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .application-actions button {
+    flex: 1;
+    min-height: 42px;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+  .page-header button {
+    width: 100%;
+  }
+
+  .application-form {
+    padding: 15px;
+  }
+
+  .application-form-actions {
+    flex-direction: column;
+  }
+
+  .application-form-actions button {
+    width: 100%;
+  }
+
+  .application-card {
+    padding: 15px;
+  }
+
+  .application-actions {
+    flex-direction: column;
+  }
+
+  .application-actions button {
+    width: 100%;
+  }
+}
+/* =========================================================
+   SKILLS - MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .skills-page {
+    width: 100%;
+  }
+
+  .skills-page > h1 {
+    font-size: 24px;
+  }
+
+  /* Placement readiness */
+  .skill-summary {
+    padding: 18px;
+  }
+
+  .skill-summary h2 {
+    font-size: 19px;
+  }
+
+  .readiness-score {
+    font-size: 34px;
+  }
+
+  .readiness-breakdown {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* Add/Edit skill form */
+  .skill-form {
+    padding: 18px;
+  }
+
+  .skill-form h2 {
+    font-size: 19px;
+  }
+
+  .skill-form input,
+  .skill-form select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .skill-form button {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  /* Skill gap */
+  .skill-gap {
+    padding: 18px;
+  }
+
+  .skill-gap h2 {
+    font-size: 20px;
+  }
+
+  .skill-gap h3 {
+    font-size: 17px;
+  }
+
+  .skill-gap > select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Skill match */
+  .skill-match-box {
+    padding: 14px;
+  }
+
+  .skill-match-header {
+    gap: 10px;
+  }
+
+  .skill-match-header span {
+    font-size: 12px;
+  }
+
+  .skill-match-header strong {
+    font-size: 18px;
+  }
+
+  /* Required skills */
+  .required-skills {
+    gap: 8px;
+  }
+
+  .required-skill-pill {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  /* Skill status */
+  .skill-status-list {
+    width: 100%;
+  }
+
+  .skill-status-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .skill-status-name {
+    min-width: 0;
+  }
+
+  .skill-status-name strong {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .skill-status-badge {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* Skills you have */
+  .skill-gap ul {
+    padding-left: 20px;
+  }
+
+  .skill-gap li {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  /* Missing skills */
+  .missing-skills-list {
+    width: 100%;
+  }
+
+  .missing-skill-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .missing-skill-name {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .priority-badge {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* Learning path */
+  .learning-path {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .learning-step {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .learning-arrow {
+    transform: rotate(90deg);
+    align-self: center;
+  }
+
+  /* Existing skills */
+  .skills-list {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .skill-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+  }
+
+  .skill-card h3 {
+    font-size: 17px;
+  }
+
+  .skill-card p {
+    font-size: 13px;
+  }
+
+  .skill-card button {
+    min-height: 40px;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .skills-page > h1 {
+    font-size: 22px;
+  }
+
+  .skill-summary,
+  .skill-form,
+  .skill-gap {
+    padding: 15px;
+  }
+
+  .readiness-score {
+    font-size: 30px;
+  }
+
+  .skill-match-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skill-status-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skill-status-badge {
+    white-space: normal;
+  }
+
+  .missing-skill-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .priority-badge {
+    white-space: normal;
+  }
+
+  .skill-card > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skill-card button {
+    width: 100%;
+  }
+}
+/* =========================================================
+   PROFILE - MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .profile-page {
+    width: 100%;
+  }
+
+  /* Header */
+  .profile-page .page-header h1 {
+    font-size: 24px;
+  }
+
+  .profile-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* Profile hero */
+  .profile-hero {
+    padding: 18px;
+    gap: 15px;
+  }
+
+  .profile-hero-content {
+    min-width: 0;
+  }
+
+  .profile-avatar {
+    flex-shrink: 0;
+  }
+
+  .profile-edit-button {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  /* Profile cards */
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .profile-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+  }
+
+  .profile-card-header h2 {
+    font-size: 19px;
+  }
+
+  .profile-card-header p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* Edit form */
+  .profile-form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .profile-field {
+    width: 100%;
+  }
+
+  .profile-field input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .profile-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .profile-actions button {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  /* Saved information */
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .profile-info-item {
+    min-width: 0;
+  }
+
+  .profile-info-item strong {
+    overflow-wrap: anywhere;
+  }
+
+  /* Resume */
+  .resume-box {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .resume-box > div:last-child {
+    min-width: 0;
+  }
+
+  .resume-box strong,
+  .resume-box p {
+    overflow-wrap: anywhere;
+  }
+
+  .resume-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .profile-upload-button,
+  .profile-save-button,
+  .profile-view-resume {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 42px;
+    text-align: center;
+  }
+
+  .resume-note {
+    display: block;
+    line-height: 1.5;
+  }
+
+  /* Skills */
+  .profile-skills-list {
+    gap: 8px;
+  }
+
+  .profile-skill {
+    font-size: 12px;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .profile-page .page-header h1 {
+    font-size: 22px;
+  }
+
+  .profile-card,
+  .profile-hero {
+    padding: 15px;
+  }
+
+  .profile-hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-hero-content {
+    width: 100%;
+  }
+
+  .profile-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .profile-card-header h2 {
+    font-size: 18px;
+  }
+
+  .profile-info-item strong {
+    font-size: 13px;
+  }
+
+  .resume-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+/* =========================================================
+   LOGIN - MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 750px) {
+
+  .login-page {
+    padding: 20px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 520px;
+    grid-template-columns: 1fr;
+  }
+
+  .login-left {
+    padding: 30px 25px;
+    min-height: auto;
+    text-align: center;
+  }
+
+  .login-left h1 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .login-left p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .login-illustration {
+    font-size: 55px;
+    margin-top: 15px;
+  }
+
+  .login-right {
+    padding: 30px 25px;
+  }
+
+  .login-right h2 {
+    font-size: 24px;
+  }
+
+  .login-subtitle {
+    font-size: 13px;
+  }
+
+  .login-right form input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .login-button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .login-footer {
+    font-size: 13px;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .login-page {
+    padding: 12px;
+  }
+
+  .login-card {
+    border-radius: 14px;
+  }
+
+  .login-left {
+    padding: 24px 18px;
+  }
+
+  .login-brand {
+    font-size: 14px;
+  }
+
+  .login-left h1 {
+    font-size: 23px;
+  }
+
+  .login-left p {
+    font-size: 12px;
+  }
+
+  .login-illustration {
+    font-size: 45px;
+  }
+
+  .login-right {
+    padding: 24px 18px;
+  }
+
+  .login-right h2 {
+    font-size: 22px;
+  }
+
+  .login-right form input {
+    padding: 11px 12px;
+  }
+
+  .login-button {
+    font-size: 13px;
+  }
+}

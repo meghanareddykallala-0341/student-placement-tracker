@@ -22,6 +22,9 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
 
+  // Mobile sidebar
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [applications, setApplications] = useState([
     {
       id: 1,
@@ -120,6 +123,7 @@ function App() {
     setIsLoggedIn(false);
     setShowRegister(false);
     setCurrentPage("dashboard");
+    setSidebarOpen(false);
   }
 
   function handleRegisterSuccess() {
@@ -128,6 +132,11 @@ function App() {
 
   function handleBackToLogin() {
     setShowRegister(false);
+  }
+
+  function handlePageChange(page) {
+    setCurrentPage(page);
+    setSidebarOpen(false);
   }
 
   if (!isLoggedIn) {
@@ -155,7 +164,7 @@ function App() {
           <Dashboard
             applications={applications}
             interviews={interviews}
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={handlePageChange}
           />
         );
 
@@ -197,24 +206,32 @@ function App() {
           <Dashboard
             applications={applications}
             interviews={interviews}
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={handlePageChange}
           />
         );
     }
   };
 
   return (
-    <div className="app">
+    <div className={`app ${sidebarOpen ? "sidebar-open" : ""}`}>
       <Navbar
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handlePageChange}
         onLogout={handleLogout}
+        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
       />
 
       <div className="app-layout">
         <Sidebar
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          setCurrentPage={handlePageChange}
         />
+
+        {sidebarOpen && (
+          <div
+            className="mobile-overlay"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
         <main className="main-content">
           {renderPage()}

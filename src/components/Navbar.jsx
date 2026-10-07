@@ -1,4 +1,4 @@
-function Navbar({ onLogout, onProfile }) {
+function Navbar({ onLogout, onMenuClick }) {
   function handleLogout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -8,6 +8,14 @@ function Navbar({ onLogout, onProfile }) {
 
   return (
     <nav>
+      <button
+        className="mobile-menu-button"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
       <h2>Placement Tracker</h2>
 
       <div>
