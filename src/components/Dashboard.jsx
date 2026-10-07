@@ -11,8 +11,6 @@ import {
 function Dashboard({ applications, interviews }) {
   const totalApplications = applications.length;
 
-  // FIX:
-  // Dashboard Interviews should come from the actual interviews list
   const interviewsCount = interviews.length;
 
   const shortlistedCount = applications.filter(
@@ -50,17 +48,13 @@ function Dashboard({ applications, interviews }) {
      PLACEMENT READINESS
   ========================= */
 
-  const applicationScore =
-    Math.min(totalApplications, 5) * 5;
+  const applicationScore = Math.min(totalApplications, 5) * 5;
 
-  const interviewScore =
-    Math.min(interviewsCount, 3) * 8.33;
+  const interviewScore = Math.min(interviewsCount, 3) * 8.33;
 
-  const shortlistedScore =
-    Math.min(shortlistedCount, 3) * 6.67;
+  const shortlistedScore = Math.min(shortlistedCount, 3) * 6.67;
 
-  const selectedScore =
-    selectedCount > 0 ? 20 : 0;
+  const selectedScore = selectedCount > 0 ? 20 : 0;
 
   const performanceScore =
     rejectedCount === 0
@@ -86,8 +80,7 @@ function Dashboard({ applications, interviews }) {
     {
       name: "Applied",
       value: applications.filter(
-        (application) =>
-          application.status === "Applied"
+        (application) => application.status === "Applied"
       ).length,
     },
     {
@@ -132,8 +125,7 @@ function Dashboard({ applications, interviews }) {
         new Date(b.deadline)
     );
 
-  const upcomingDeadlines =
-    sortedApplications.slice(0, 5);
+  const upcomingDeadlines = sortedApplications.slice(0, 5);
 
   function getDeadlineStatus(deadline) {
     const today = new Date();
@@ -145,12 +137,10 @@ function Dashboard({ applications, interviews }) {
     deadlineDate.setHours(0, 0, 0, 0);
 
     const difference =
-      deadlineDate.getTime() -
-      today.getTime();
+      deadlineDate.getTime() - today.getTime();
 
     const days = Math.round(
-      difference /
-        (1000 * 60 * 60 * 24)
+      difference / (1000 * 60 * 60 * 24)
     );
 
     if (days < 0) return "Overdue";
@@ -163,8 +153,7 @@ function Dashboard({ applications, interviews }) {
   function formatDate(date) {
     if (!date) return "";
 
-    const [year, month, day] =
-      date.split("-");
+    const [year, month, day] = date.split("-");
 
     return `${Number(day)}/${Number(month)}/${year}`;
   }
@@ -175,13 +164,11 @@ function Dashboard({ applications, interviews }) {
 
   const upcomingInterviews = [...interviews]
     .filter(
-      (interview) =>
-        interview.status === "Upcoming"
+      (interview) => interview.status === "Upcoming"
     )
     .sort(
       (a, b) =>
-        new Date(a.date) -
-        new Date(b.date)
+        new Date(a.date) - new Date(b.date)
     )
     .slice(0, 5);
 
@@ -199,8 +186,7 @@ function Dashboard({ applications, interviews }) {
       today.getTime();
 
     const days = Math.round(
-      difference /
-        (1000 * 60 * 60 * 24)
+      difference / (1000 * 60 * 60 * 24)
     );
 
     if (days < 0) return "Past";
@@ -235,147 +221,197 @@ function Dashboard({ applications, interviews }) {
       return;
     }
 
-    const notificationKey =
-      "placementNotifications";
+    const notificationKey = "placementNotifications";
 
     const alreadyShown = JSON.parse(
-      localStorage.getItem(
-        notificationKey
-      ) || "[]"
+      localStorage.getItem(notificationKey) || "[]"
     );
 
-    upcomingDeadlines.forEach(
-      (application) => {
-        const status =
-          getDeadlineStatus(
-            application.deadline
+    upcomingDeadlines.forEach((application) => {
+      const status = getDeadlineStatus(
+        application.deadline
+      );
+
+      if (
+        status === "Today" ||
+        status === "Tomorrow"
+      ) {
+        const notificationId =
+          `deadline-${application.company}-${application.deadline}`;
+
+        if (!alreadyShown.includes(notificationId)) {
+          new Notification(
+            `${application.company} deadline`,
+            {
+              body: `${application.role} application deadline is ${status.toLowerCase()}.`,
+            }
           );
 
-        if (
-          status === "Today" ||
-          status === "Tomorrow"
-        ) {
-          const notificationId =
-            `deadline-${application.company}-${application.deadline}`;
-
-          if (
-            !alreadyShown.includes(
-              notificationId
-            )
-          ) {
-            new Notification(
-              `${application.company} deadline`,
-              {
-                body: `${application.role} application deadline is ${status.toLowerCase()}.`,
-              }
-            );
-
-            alreadyShown.push(
-              notificationId
-            );
-          }
+          alreadyShown.push(notificationId);
         }
       }
-    );
+    });
 
-    upcomingInterviews.forEach(
-      (interview) => {
-        const timing =
-          getInterviewTiming(
-            interview.date
+    upcomingInterviews.forEach((interview) => {
+      const timing = getInterviewTiming(
+        interview.date
+      );
+
+      if (
+        timing === "Today" ||
+        timing === "Tomorrow"
+      ) {
+        const notificationId =
+          `interview-${interview.company}-${interview.date}`;
+
+        if (!alreadyShown.includes(notificationId)) {
+          new Notification(
+            `${interview.company} interview`,
+            {
+              body: `${interview.role} interview is ${timing.toLowerCase()}.`,
+            }
           );
 
-        if (
-          timing === "Today" ||
-          timing === "Tomorrow"
-        ) {
-          const notificationId =
-            `interview-${interview.company}-${interview.date}`;
-
-          if (
-            !alreadyShown.includes(
-              notificationId
-            )
-          ) {
-            new Notification(
-              `${interview.company} interview`,
-              {
-                body: `${interview.role} interview is ${timing.toLowerCase()}.`,
-              }
-            );
-
-            alreadyShown.push(
-              notificationId
-            );
-          }
+          alreadyShown.push(notificationId);
         }
       }
-    );
+    });
 
     localStorage.setItem(
       notificationKey,
-      JSON.stringify(
-        alreadyShown
-      )
+      JSON.stringify(alreadyShown)
     );
   }, [applications, interviews]);
 
   return (
     <div className="dashboard-page">
 
-      {/* HEADER */}
+      {/* =========================
+          HEADER
+      ========================= */}
 
-      <div className="page-header">
+      <div className="dashboard-header">
+
         <div>
-          <p className="section-label">
+          <p className="dashboard-eyebrow">
             PLACEMENT OVERVIEW
           </p>
 
           <h1>Dashboard</h1>
 
           <p className="dashboard-subtitle">
-            Track your placement journey and
-            stay prepared.
+            Track your applications, interviews, and
+            placement progress in one place.
           </p>
         </div>
-      </div>
 
-      {/* STAT CARDS */}
-
-      <div className="dashboard-grid">
-
-        <div className="dashboard-card">
-          <h3>Total Applications</h3>
-          <p>{totalApplications}</p>
-        </div>
-
-        <div className="dashboard-card">
-          <h3>Interviews</h3>
-          <p>{interviewsCount}</p>
-        </div>
-
-        <div className="dashboard-card">
-          <h3>Selected</h3>
-          <p>{selectedCount}</p>
-        </div>
-
-        <div className="dashboard-card">
-          <h3>Rejected</h3>
-          <p>{rejectedCount}</p>
+        <div className="dashboard-header-badge">
+          <span>Placement Readiness</span>
+          <strong>{readinessScore}%</strong>
         </div>
 
       </div>
 
-      {/* PLACEMENT FUNNEL */}
+      {/* =========================
+          STAT CARDS
+      ========================= */}
+
+      <div className="dashboard-stats-grid">
+
+        <div className="dashboard-stat-card">
+          <div className="stat-card-top">
+            <span className="stat-icon applications-icon">
+              A
+            </span>
+
+            <span className="stat-label">
+              Applications
+            </span>
+          </div>
+
+          <strong className="stat-value">
+            {totalApplications}
+          </strong>
+
+          <span className="stat-description">
+            Total applications
+          </span>
+        </div>
+
+        <div className="dashboard-stat-card">
+          <div className="stat-card-top">
+            <span className="stat-icon interview-icon">
+              I
+            </span>
+
+            <span className="stat-label">
+              Interviews
+            </span>
+          </div>
+
+          <strong className="stat-value">
+            {interviewsCount}
+          </strong>
+
+          <span className="stat-description">
+            Interview opportunities
+          </span>
+        </div>
+
+        <div className="dashboard-stat-card">
+          <div className="stat-card-top">
+            <span className="stat-icon selected-icon">
+              ✓
+            </span>
+
+            <span className="stat-label">
+              Selected
+            </span>
+          </div>
+
+          <strong className="stat-value">
+            {selectedCount}
+          </strong>
+
+          <span className="stat-description">
+            Successful applications
+          </span>
+        </div>
+
+        <div className="dashboard-stat-card">
+          <div className="stat-card-top">
+            <span className="stat-icon rejected-icon">
+              ×
+            </span>
+
+            <span className="stat-label">
+              Rejected
+            </span>
+          </div>
+
+          <strong className="stat-value">
+            {rejectedCount}
+          </strong>
+
+          <span className="stat-description">
+            Applications rejected
+          </span>
+        </div>
+
+      </div>
+
+      {/* =========================
+          PLACEMENT FUNNEL
+      ========================= */}
 
       <div className="dashboard-section placement-funnel">
 
-        <div className="funnel-header">
+        <div className="dashboard-section-header">
           <div>
             <h2>Placement Funnel</h2>
 
             <p>
-              Track your progress through each stage
+              Track your progress through each stage.
             </p>
           </div>
         </div>
@@ -389,14 +425,10 @@ function Dashboard({ applications, interviews }) {
 
             <strong>Applications</strong>
 
-            <span>
-              Jobs applied for
-            </span>
+            <span>Jobs applied for</span>
           </div>
 
-          <div className="funnel-arrow">
-            →
-          </div>
+          <div className="funnel-arrow">→</div>
 
           <div className="funnel-step">
             <div className="funnel-number">
@@ -405,14 +437,10 @@ function Dashboard({ applications, interviews }) {
 
             <strong>Shortlisted</strong>
 
-            <span>
-              Applications shortlisted
-            </span>
+            <span>Applications shortlisted</span>
           </div>
 
-          <div className="funnel-arrow">
-            →
-          </div>
+          <div className="funnel-arrow">→</div>
 
           <div className="funnel-step">
             <div className="funnel-number">
@@ -421,14 +449,10 @@ function Dashboard({ applications, interviews }) {
 
             <strong>Interviews</strong>
 
-            <span>
-              Interview opportunities
-            </span>
+            <span>Interview opportunities</span>
           </div>
 
-          <div className="funnel-arrow">
-            →
-          </div>
+          <div className="funnel-arrow">→</div>
 
           <div className="funnel-step">
             <div className="funnel-number">
@@ -437,251 +461,236 @@ function Dashboard({ applications, interviews }) {
 
             <strong>Selected</strong>
 
-            <span>
-              Successful applications
-            </span>
+            <span>Successful applications</span>
           </div>
 
         </div>
+
       </div>
 
-      {/* APPLICATION DEADLINES */}
+      {/* =========================
+          TWO COLUMN SECTION
+      ========================= */}
 
-      <div className="dashboard-section">
+      <div className="dashboard-two-column">
 
-        <div className="section-title-block">
+        {/* APPLICATION DEADLINES */}
 
-          <h2>
-            Application Deadlines
-          </h2>
+        <div className="dashboard-section">
 
-          <p>
-            Never miss an application deadline
-          </p>
+          <div className="dashboard-section-header">
+            <div>
+              <h2>Application Deadlines</h2>
+
+              <p>
+                Never miss an important deadline.
+              </p>
+            </div>
+          </div>
+
+          {upcomingDeadlines.length === 0 ? (
+
+            <div className="empty-message">
+              No application deadlines available.
+            </div>
+
+          ) : (
+
+            <div className="deadline-list">
+
+              {upcomingDeadlines.map(
+                (application) => {
+
+                  const deadlineStatus =
+                    getDeadlineStatus(
+                      application.deadline
+                    );
+
+                  return (
+                    <div
+                      className="deadline-item"
+                      key={application.id}
+                    >
+
+                      <div className="deadline-main">
+
+                        <strong>
+                          {application.company}
+                        </strong>
+
+                        <p>
+                          {application.role}
+                        </p>
+
+                      </div>
+
+                      <div className="deadline-right">
+
+                        <span className="deadline-date">
+                          {formatDate(
+                            application.deadline
+                          )}
+                        </span>
+
+                        <span
+                          className={`deadline-status ${deadlineStatus
+                            .toLowerCase()
+                            .replace(" ", "-")}`}
+                        >
+                          {deadlineStatus}
+                        </span>
+
+                      </div>
+
+                    </div>
+                  );
+                }
+              )}
+
+            </div>
+
+          )}
 
         </div>
 
-        {upcomingDeadlines.length === 0 ? (
+        {/* UPCOMING INTERVIEWS */}
 
-          <div className="empty-message">
-            No application deadlines available.
+        <div className="dashboard-section">
+
+          <div className="dashboard-section-header">
+            <div>
+              <h2>Upcoming Interviews</h2>
+
+              <p>
+                Prepare for your next opportunity.
+              </p>
+            </div>
           </div>
 
-        ) : (
+          {upcomingInterviews.length === 0 ? (
 
-          <div className="deadline-list">
+            <div className="empty-message">
+              No upcoming interviews.
+            </div>
 
-            {upcomingDeadlines.map(
-              (application) => {
+          ) : (
 
-                const deadlineStatus =
-                  getDeadlineStatus(
-                    application.deadline
-                  );
+            <div className="interview-list">
 
-                return (
+              {upcomingInterviews.map(
+                (interview) => (
+
                   <div
-                    className="deadline-item"
-                    key={application.id}
+                    className="interview-item"
+                    key={interview.id}
                   >
 
-                    <div className="deadline-main">
+                    <div className="interview-main">
 
                       <strong>
-                        {application.company}
+                        {interview.company}
                       </strong>
 
                       <p>
-                        {application.role}
+                        {interview.role}
                       </p>
 
                     </div>
 
-                    <div className="deadline-right">
+                    <div className="interview-right">
 
-                      <span className="deadline-date">
-                        Deadline:{" "}
+                      <strong>
                         {formatDate(
-                          application.deadline
+                          interview.date
                         )}
+                      </strong>
+
+                      <span className="interview-time">
+                        {interview.time}
                       </span>
 
-                      <span
-                        className={`deadline-status ${deadlineStatus
-                          .toLowerCase()
-                          .replace(
-                            " ",
-                            "-"
-                          )}`}
-                      >
-                        {deadlineStatus}
+                      <span className="interview-status">
+                        {getInterviewTiming(
+                          interview.date
+                        )}
                       </span>
 
                     </div>
 
                   </div>
-                );
-              }
-            )}
 
-          </div>
+                )
+              )}
 
-        )}
+            </div>
 
-      </div>
-
-      {/* UPCOMING INTERVIEWS */}
-
-      <div className="dashboard-section">
-
-        <div className="section-title-block">
-
-          <h2>
-            Upcoming Interviews
-          </h2>
-
-          <p>
-            Prepare for your next opportunity
-          </p>
+          )}
 
         </div>
 
-        {upcomingInterviews.length === 0 ? (
-
-          <div className="empty-message">
-            No upcoming interviews.
-          </div>
-
-        ) : (
-
-          <div className="interview-list">
-
-            {upcomingInterviews.map(
-              (interview) => (
-
-                <div
-                  className="interview-item"
-                  key={interview.id}
-                >
-
-                  <div className="interview-main">
-
-                    <strong>
-                      {interview.company}
-                    </strong>
-
-                    <p>
-                      {interview.role}
-                    </p>
-
-                  </div>
-
-                  <div className="interview-right">
-
-                    <strong>
-                      Date:{" "}
-                      {formatDate(
-                        interview.date
-                      )}
-                    </strong>
-
-                    <span className="interview-time">
-                      Time: {interview.time}
-                    </span>
-
-                    <span className="interview-status">
-                      {getInterviewTiming(
-                        interview.date
-                      )}
-                    </span>
-
-                  </div>
-
-                </div>
-
-              )
-            )}
-
-          </div>
-
-        )}
-
       </div>
 
-      {/* PERFORMANCE OVERVIEW */}
+      {/* =========================
+          PERFORMANCE
+      ========================= */}
 
       <div className="dashboard-section performance-section">
 
-        <div className="section-title-block">
+        <div className="dashboard-section-header">
+          <div>
+            <h2>Performance Overview</h2>
 
-          <h2>
-            Performance Overview
-          </h2>
-
-          <p>
-            Understand how your applications
-            are progressing
-          </p>
-
+            <p>
+              Understand how your applications are
+              progressing.
+            </p>
+          </div>
         </div>
 
         <div className="performance-grid">
 
           <div className="performance-item">
+            <span>Success Rate</span>
 
-            <span>
-              Success Rate
-            </span>
-
-            <strong>
+            <strong className="performance-success">
               {successRate}%
             </strong>
-
           </div>
 
           <div className="performance-item">
+            <span>Interview Rate</span>
 
-            <span>
-              Interview Rate
-            </span>
-
-            <strong>
+            <strong className="performance-interview">
               {interviewRate}%
             </strong>
-
           </div>
 
           <div className="performance-item">
+            <span>Rejection Rate</span>
 
-            <span>
-              Rejection Rate
-            </span>
-
-            <strong>
+            <strong className="performance-rejection">
               {rejectionRate}%
             </strong>
-
           </div>
 
         </div>
 
       </div>
 
-      {/* PLACEMENT READINESS */}
+      {/* =========================
+          PLACEMENT READINESS
+      ========================= */}
 
       <div className="dashboard-section readiness-section">
 
-        <div className="section-title-block">
+        <div className="dashboard-section-header">
+          <div>
+            <h2>Placement Readiness</h2>
 
-          <h2>
-            Placement Readiness
-          </h2>
-
-          <p>
-            Your current placement
-            preparation score
-          </p>
-
+            <p>
+              Your current placement preparation score.
+            </p>
+          </div>
         </div>
 
         <div className="readiness-layout">
@@ -701,45 +710,31 @@ function Dashboard({ applications, interviews }) {
           <div className="readiness-details">
 
             <div>
-              <span>
-                Applications
-              </span>
+              <span>Applications</span>
 
               <strong>
-                {Math.round(
-                  applicationScore
-                )}/25
+                {Math.round(applicationScore)}/25
               </strong>
             </div>
 
             <div>
-              <span>
-                Interviews
-              </span>
+              <span>Interviews</span>
 
               <strong>
-                {Math.round(
-                  interviewScore
-                )}/25
+                {Math.round(interviewScore)}/25
               </strong>
             </div>
 
             <div>
-              <span>
-                Shortlisted
-              </span>
+              <span>Shortlisted</span>
 
               <strong>
-                {Math.round(
-                  shortlistedScore
-                )}/20
+                {Math.round(shortlistedScore)}/20
               </strong>
             </div>
 
             <div>
-              <span>
-                Selected
-              </span>
+              <span>Selected</span>
 
               <strong>
                 {selectedScore}/20
@@ -747,9 +742,7 @@ function Dashboard({ applications, interviews }) {
             </div>
 
             <div>
-              <span>
-                Performance
-              </span>
+              <span>Performance</span>
 
               <strong>
                 {performanceScore}/10
@@ -762,20 +755,20 @@ function Dashboard({ applications, interviews }) {
 
       </div>
 
-      {/* APPLICATION STATUS */}
+      {/* =========================
+          APPLICATION STATUS
+      ========================= */}
 
       <div className="dashboard-section application-status-section">
 
-        <div className="section-title-block">
+        <div className="dashboard-section-header">
+          <div>
+            <h2>Application Status</h2>
 
-          <h2>
-            Application Status
-          </h2>
-
-          <p>
-            Your applications by current status
-          </p>
-
+            <p>
+              Your applications by current status.
+            </p>
+          </div>
         </div>
 
         {statusData.length === 0 ? (
@@ -809,9 +802,7 @@ function Dashboard({ applications, interviews }) {
                     (entry, index) => (
                       <Cell
                         key={`cell-${index}`}
-                        fill={
-                          COLORS[entry.name]
-                        }
+                        fill={COLORS[entry.name]}
                       />
                     )
                   )}

@@ -28,6 +28,10 @@ function Skills() {
     "Advanced",
   ];
 
+  /* =========================================================
+     LOAD SKILLS
+  ========================================================= */
+
   useEffect(() => {
     api
       .get("/api/skills/")
@@ -39,6 +43,10 @@ function Skills() {
         alert("Could not load skills.");
       });
   }, []);
+
+  /* =========================================================
+     VALIDATE SKILL
+  ========================================================= */
 
   function validateSkill() {
     const trimmedSkillName = skillName.trim();
@@ -88,6 +96,10 @@ function Skills() {
     return true;
   }
 
+  /* =========================================================
+     ADD SKILL
+  ========================================================= */
+
   function addSkill() {
     if (!validateSkill()) {
       return;
@@ -122,6 +134,10 @@ function Skills() {
       });
   }
 
+  /* =========================================================
+     EDIT SKILL
+  ========================================================= */
+
   function startEdit(skill) {
     setEditingSkillId(skill.id);
     setSkillName(skill.name || "");
@@ -133,6 +149,10 @@ function Skills() {
       behavior: "smooth",
     });
   }
+
+  /* =========================================================
+     UPDATE SKILL
+  ========================================================= */
 
   function updateSkill() {
     if (editingSkillId === null) {
@@ -179,8 +199,16 @@ function Skills() {
       });
   }
 
+  /* =========================================================
+     DELETE SKILL
+  ========================================================= */
+
   function deleteSkill(id) {
-    if (!window.confirm("Are you sure you want to delete this skill?")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this skill?"
+      )
+    ) {
       return;
     }
 
@@ -210,6 +238,10 @@ function Skills() {
       });
   }
 
+  /* =========================================================
+     CLEAR FORM
+  ========================================================= */
+
   function cancelEdit() {
     clearForm();
   }
@@ -220,6 +252,10 @@ function Skills() {
     setLevel("Beginner");
     setEditingSkillId(null);
   }
+
+  /* =========================================================
+     PLACEMENT READINESS
+  ========================================================= */
 
   const beginnerSkills = skills.filter(
     (skill) => skill.level === "Beginner"
@@ -245,6 +281,10 @@ function Skills() {
             (totalSkills * 3)) *
             100
         );
+
+  /* =========================================================
+     ROLE SKILLS
+  ========================================================= */
 
   const roleSkills = {
     "Python Full Stack Developer": [
@@ -277,25 +317,316 @@ function Skills() {
       "OOP",
       "Git",
     ],
+
+    "Cybersecurity Analyst": [
+      "Networking",
+      "Linux",
+      "Python",
+      "Cybersecurity",
+      "Cryptography",
+      "Firewalls",
+      "SIEM",
+      "Git",
+    ],
+
+    "Data Analyst": [
+      "Python",
+      "SQL",
+      "Excel",
+      "Power BI",
+      "Statistics",
+      "Pandas",
+      "Data Visualization",
+      "Git",
+    ],
+
+    "Frontend Developer": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Git",
+      "Bootstrap",
+      "Responsive Design",
+      "REST API",
+    ],
+
+    "Backend Developer": [
+      "Python",
+      "Django",
+      "REST API",
+      "SQL",
+      "Git",
+      "APIs",
+      "Authentication",
+      "Database",
+    ],
+
+    "Java Developer": [
+      "Java",
+      "OOP",
+      "SQL",
+      "Spring Boot",
+      "REST API",
+      "Git",
+      "DSA",
+      "JDBC",
+    ],
+
+    "Python Developer": [
+      "Python",
+      "OOP",
+      "SQL",
+      "Django",
+      "REST API",
+      "Git",
+      "DSA",
+      "Testing",
+    ],
+
+    "React Developer": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS",
+      "Git",
+      "REST API",
+      "JSX",
+      "Responsive Design",
+    ],
+
+    "Database Developer": [
+      "SQL",
+      "MySQL",
+      "PostgreSQL",
+      "Database",
+      "DBMS",
+      "Python",
+      "Git",
+      "Data Modeling",
+    ],
+
+    "Cloud Engineer": [
+      "Cloud Computing",
+      "AWS",
+      "Linux",
+      "Networking",
+      "Python",
+      "Docker",
+      "Git",
+      "Security",
+    ],
+
+    "DevOps Engineer": [
+      "Linux",
+      "Git",
+      "Docker",
+      "CI/CD",
+      "Cloud Computing",
+      "AWS",
+      "Networking",
+      "Python",
+    ],
   };
 
-  const requiredSkills = roleSkills[targetRole];
+  /* =========================================================
+     SKILL PRIORITY
+  ========================================================= */
 
-  const userSkillNames = skills.map(
-    (skill) =>
-      skill.name.trim().toLowerCase()
-  );
+  const skillPriority = {
+    Python: "High",
+    Java: "High",
+    JavaScript: "High",
+    SQL: "High",
+    DSA: "High",
+    Networking: "High",
+    Cybersecurity: "High",
 
-  const missingSkills = requiredSkills.filter(
-    (skill) =>
-      !userSkillNames.includes(
-        skill.toLowerCase()
-      )
+    Django: "Medium",
+    "Spring Boot": "Medium",
+    React: "Medium",
+    HTML: "Medium",
+    CSS: "Medium",
+    Linux: "Medium",
+    Excel: "Medium",
+    "Power BI": "Medium",
+    Pandas: "Medium",
+    Statistics: "Medium",
+
+    Git: "Low",
+    Bootstrap: "Low",
+    "REST API": "Low",
+    "Data Visualization": "Low",
+    OOP: "Low",
+  };
+
+  /* =========================================================
+     LEARNING PATHS
+  ========================================================= */
+
+  const learningPaths = {
+    "Python Full Stack Developer": [
+      "Python",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "SQL",
+      "Django",
+      "React",
+      "Git",
+    ],
+
+    "Java Full Stack Developer": [
+      "Java",
+      "OOP",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "SQL",
+      "Spring Boot",
+      "React",
+      "Git",
+    ],
+
+    "Software Developer": [
+      "Programming",
+      "OOP",
+      "DSA",
+      "SQL",
+      "Git",
+    ],
+
+    "Cybersecurity Analyst": [
+      "Networking",
+      "Linux",
+      "Python",
+      "Cybersecurity",
+      "Cryptography",
+      "Firewalls",
+      "SIEM",
+      "Git",
+    ],
+
+    "Data Analyst": [
+      "Excel",
+      "SQL",
+      "Statistics",
+      "Python",
+      "Pandas",
+      "Power BI",
+      "Data Visualization",
+      "Git",
+    ],
+
+    "Frontend Developer": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Responsive Design",
+      "Bootstrap",
+      "React",
+      "REST API",
+      "Git",
+    ],
+
+    "Backend Developer": [
+      "Python",
+      "SQL",
+      "Database",
+      "Django",
+      "REST API",
+      "Authentication",
+      "APIs",
+      "Git",
+    ],
+
+    "Java Developer": [
+      "Java",
+      "OOP",
+      "DSA",
+      "SQL",
+      "JDBC",
+      "Spring Boot",
+      "REST API",
+      "Git",
+    ],
+
+    "Python Developer": [
+      "Python",
+      "OOP",
+      "DSA",
+      "SQL",
+      "Django",
+      "REST API",
+      "Testing",
+      "Git",
+    ],
+
+    "React Developer": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "JSX",
+      "React",
+      "REST API",
+      "Responsive Design",
+      "Git",
+    ],
+
+    "Database Developer": [
+      "SQL",
+      "DBMS",
+      "Database",
+      "Data Modeling",
+      "MySQL",
+      "PostgreSQL",
+      "Python",
+      "Git",
+    ],
+
+    "Cloud Engineer": [
+      "Networking",
+      "Linux",
+      "Python",
+      "Cloud Computing",
+      "AWS",
+      "Docker",
+      "Security",
+      "Git",
+    ],
+
+    "DevOps Engineer": [
+      "Linux",
+      "Networking",
+      "Git",
+      "Python",
+      "Docker",
+      "CI/CD",
+      "AWS",
+      "Cloud Computing",
+    ],
+  };
+
+  /* =========================================================
+     SKILL GAP CALCULATIONS
+  ========================================================= */
+
+  const requiredSkills = roleSkills[targetRole] || [];
+
+  const userSkillNames = skills.map((skill) =>
+    skill.name.trim().toLowerCase()
   );
 
   const matchedSkills = requiredSkills.filter(
     (skill) =>
       userSkillNames.includes(
+        skill.toLowerCase()
+      )
+  );
+
+  const missingSkills = requiredSkills.filter(
+    (skill) =>
+      !userSkillNames.includes(
         skill.toLowerCase()
       )
   );
@@ -309,25 +640,86 @@ function Skills() {
             100
         );
 
+  const recommendedSkills = (
+    learningPaths[targetRole] || []
+  ).filter(
+    (skill) =>
+      !userSkillNames.includes(
+        skill.toLowerCase()
+      )
+  );
+
+  /* =========================================================
+     SKILL STATUS
+  ========================================================= */
+
+  const getSkillStatus = (skillName) => {
+    const userSkill = skills.find(
+      (skill) =>
+        skill.name.trim().toLowerCase() ===
+        skillName.trim().toLowerCase()
+    );
+
+    if (!userSkill) {
+      return {
+        status: "Missing",
+        className: "missing",
+        symbol: "🔴",
+      };
+    }
+
+    if (userSkill.level === "Advanced") {
+      return {
+        status: "Strong",
+        className: "strong",
+        symbol: "🟢",
+      };
+    }
+
+    if (userSkill.level === "Intermediate") {
+      return {
+        status: "In Progress",
+        className: "progress",
+        symbol: "🔵",
+      };
+    }
+
+    return {
+      status: "Beginner",
+      className: "beginner",
+      symbol: "🟠",
+    };
+  };
+
+  /* =========================================================
+     UI
+  ========================================================= */
+
   return (
-    <div>
+    <div className="skills-page">
+
       <h1>Skills</h1>
 
       {/* PLACEMENT READINESS */}
+
       <div className="skill-summary">
         <h2>Placement Readiness</h2>
 
-        <p>{readinessScore}%</p>
+        <p className="readiness-score">
+          {readinessScore}%
+        </p>
 
-        <p>
+        <p className="readiness-breakdown">
           Beginner: {beginnerSkills} | Intermediate:{" "}
           {intermediateSkills} | Advanced:{" "}
           {advancedSkills}
         </p>
       </div>
 
-      {/* ADD / EDIT SKILL FORM */}
+      {/* ADD / EDIT SKILL */}
+
       <div className="skill-form">
+
         <h2>
           {editingSkillId !== null
             ? "Edit Skill"
@@ -350,11 +742,14 @@ function Skills() {
             setCategory(e.target.value)
           }
         >
-          <option>Programming</option>
-          <option>Web Development</option>
-          <option>Database</option>
-          <option>CS Fundamentals</option>
-          <option>Tools</option>
+          {allowedCategories.map((item) => (
+            <option
+              key={item}
+              value={item}
+            >
+              {item}
+            </option>
+          ))}
         </select>
 
         <select
@@ -363,9 +758,14 @@ function Skills() {
             setLevel(e.target.value)
           }
         >
-          <option>Beginner</option>
-          <option>Intermediate</option>
-          <option>Advanced</option>
+          {allowedLevels.map((item) => (
+            <option
+              key={item}
+              value={item}
+            >
+              {item}
+            </option>
+          ))}
         </select>
 
         {editingSkillId !== null ? (
@@ -374,7 +774,10 @@ function Skills() {
               Update Skill
             </button>
 
-            <button onClick={cancelEdit}>
+            <button
+              type="button"
+              onClick={cancelEdit}
+            >
               Cancel
             </button>
           </>
@@ -383,13 +786,18 @@ function Skills() {
             Add Skill
           </button>
         )}
+
       </div>
 
       {/* SKILL GAP ANALYSIS */}
+
       <div className="skill-gap">
+
         <h2>Skill Gap Analysis</h2>
 
-        <p>Select your target role:</p>
+        <p>
+          Select your target role:
+        </p>
 
         <select
           value={targetRole}
@@ -397,32 +805,103 @@ function Skills() {
             setTargetRole(e.target.value)
           }
         >
-          <option>
-            Python Full Stack Developer
-          </option>
-
-          <option>
-            Java Full Stack Developer
-          </option>
-
-          <option>
-            Software Developer
-          </option>
+          {Object.keys(roleSkills).map((role) => (
+            <option
+              key={role}
+              value={role}
+            >
+              {role}
+            </option>
+          ))}
         </select>
+
+        {/* SKILL MATCH */}
 
         <h3>Skill Match</h3>
 
-        <p>
-          {matchedSkills.length} /{" "}
-          {requiredSkills.length} skills matched (
-          {skillMatchPercentage}%)
-        </p>
+        <div className="skill-match-box">
+
+          <div className="skill-match-header">
+
+            <span>
+              {matchedSkills.length} /{" "}
+              {requiredSkills.length} skills matched
+            </span>
+
+            <strong>
+              {skillMatchPercentage}%
+            </strong>
+
+          </div>
+
+          <div className="skill-progress-track">
+
+            <div
+              className="skill-progress-fill"
+              style={{
+                width: `${skillMatchPercentage}%`,
+              }}
+            ></div>
+
+          </div>
+
+        </div>
+
+        {/* REQUIRED SKILLS */}
 
         <h3>Required Skills</h3>
 
-        <p>
-          {requiredSkills.join(" • ")}
-        </p>
+        <div className="required-skills">
+
+          {requiredSkills.map((skill) => (
+            <span
+              key={skill}
+              className="required-skill-pill"
+            >
+              {skill}
+            </span>
+          ))}
+
+        </div>
+
+        {/* SKILL STATUS */}
+
+        <h3>Skill Status</h3>
+
+        <div className="skill-status-list">
+
+          {requiredSkills.map((skill) => {
+
+            const skillStatus =
+              getSkillStatus(skill);
+
+            return (
+              <div
+                key={skill}
+                className={`skill-status-card ${skillStatus.className}`}
+              >
+
+                <div className="skill-status-name">
+                  <span>
+                    {skillStatus.symbol}
+                  </span>
+
+                  <strong>
+                    {skill}
+                  </strong>
+                </div>
+
+                <span className="skill-status-badge">
+                  {skillStatus.status}
+                </span>
+
+              </div>
+            );
+          })}
+
+        </div>
+
+        {/* SKILLS YOU HAVE */}
 
         <h3>Skills You Have</h3>
 
@@ -432,13 +911,17 @@ function Skills() {
           </p>
         ) : (
           <ul>
+
             {matchedSkills.map((skill) => (
               <li key={skill}>
                 ✅ {skill}
               </li>
             ))}
+
           </ul>
         )}
+
+        {/* MISSING SKILLS */}
 
         <h3>Missing Skills</h3>
 
@@ -448,27 +931,99 @@ function Skills() {
             for this role!
           </p>
         ) : (
-          <ul>
-            {missingSkills.map((skill) => (
-              <li key={skill}>
-                ⚠️ {skill}
-              </li>
-            ))}
-          </ul>
+          <div className="missing-skills-list">
+
+            {missingSkills.map((skill) => {
+
+              const priority =
+                skillPriority[skill] || "Medium";
+
+              return (
+                <div
+                  key={skill}
+                  className={`missing-skill-card ${priority.toLowerCase()}`}
+                >
+
+                  <div className="missing-skill-name">
+                    ⚠️ {skill}
+                  </div>
+
+                  <span className="priority-badge">
+                    {priority} Priority
+                  </span>
+
+                </div>
+              );
+            })}
+
+          </div>
         )}
+
+        {/* RECOMMENDED LEARNING PATH */}
+
+        <h3>
+          Recommended Learning Path
+        </h3>
+
+        {recommendedSkills.length === 0 ? (
+          <p>
+            🎉 You have completed the
+            recommended learning path
+            for this role!
+          </p>
+        ) : (
+          <div className="learning-path">
+
+            {recommendedSkills.map(
+              (skill, index) => (
+                <div
+                  className="learning-step"
+                  key={skill}
+                >
+
+                  <span className="learning-number">
+                    {index + 1}
+                  </span>
+
+                  <span className="learning-skill">
+                    {skill}
+                  </span>
+
+                  {index <
+                    recommendedSkills.length - 1 && (
+                    <span className="learning-arrow">
+                      →
+                    </span>
+                  )}
+
+                </div>
+              )
+            )}
+
+          </div>
+        )}
+
       </div>
 
       {/* SKILLS LIST */}
+
       <div className="skills-list">
+
         {skills.length === 0 ? (
-          <p>No skills added yet.</p>
+          <p>
+            No skills added yet.
+          </p>
         ) : (
           skills.map((skill) => (
+
             <div
               className="skill-card"
               key={skill.id}
             >
-              <h3>{skill.name}</h3>
+
+              <h3>
+                {skill.name}
+              </h3>
 
               <p>
                 Category: {skill.category}
@@ -479,6 +1034,7 @@ function Skills() {
               </p>
 
               <div>
+
                 <button
                   onClick={() =>
                     startEdit(skill)
@@ -494,11 +1050,16 @@ function Skills() {
                 >
                   Delete
                 </button>
+
               </div>
+
             </div>
+
           ))
         )}
+
       </div>
+
     </div>
   );
 }
